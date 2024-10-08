@@ -1,27 +1,135 @@
-# FundamentosAngular
+# Fundamento do Angular 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
+Este repositorio e para apenas aprendizagem na Fremework angular para conhecimento da plataforma completa.
 
-## Development server
+# Pré-requisitos
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1.	**Node.js:** Angular requer Node.js para a execução de seu ambiente de desenvolvimento. O Node.js também inclui o npm (Node Package Manager), que é utilizado para instalar as dependências do projeto.
 
-## Code scaffolding
+2.	**Angular CLI:**  Ferramenta de linha de comando que facilita a criação, desenvolvimento e manutenção de projetos Angular. 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**Instalando a CLI**
 
-## Build
+```javascript
+npm install -g @angular/cli
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+**Criando novo projeto**
 
-## Running unit tests
+```javascript
+ng new <nome-projeto>
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+**Criando um novo componente**
 
-## Running end-to-end tests
+```java 
+ng generate component <component-name>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+ou 
 
-## Further help
+ng g c <component-name>
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Dando o Start no projeto**
+
+```
+npm start
+```
+
+**Porta Padrao da Aplicacao**
+
+```java
+http://localhost:4200/
+```
+
+# Estrutura do projeto
+
+#### Após criar um novo projeto Angular usando o Angular CLI, a estrutura básica de diretórios e arquivos é a seguinte:
+
+- **src/**: Contém todo o código fonte da aplicação.
+
+- **app/**: Diretório principal da aplicação onde os componentes, serviços e módulos são organizados.
+
+- **assets/**: Diretório para armazenar arquivos estáticos, como imagens e fontes.
+
+- **environments/**: Contém arquivos de configuração para diferentes ambientes (desenvolvimento, produção, etc.).
+
+- **main.ts**: Arquivo de entrada principal que inicializa o módulo principal da aplicação.
+
+- **index.html**: Página HTML principal, onde o aplicativo Angular é carregado.
+
+- **styles.css**: Arquivo de estilos globais da aplicação.
+
+- **angular.json**: Arquivo de configuração do Angular CLI, que define como o projeto é construído e servido.
+
+- **package.json**: Lista as dependências do projeto e scripts de build.
+
+<br>
+
+# HTTP Fetch
+
+Para realizar chamadas HTTP ao backend, vamos precisar usar um módulo especifico do Angular, o **`HttpClient`.**
+
+O HttpClient é fornecido usando a função auxiliar `provideHttpClient`, que a maioria dos aplicativos inclui nos provedores de aplicativos em`app.config.ts.`
+
+```javascript
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(),
+  ]
+};
+```
+
+Agora, para usar o HttpClient basta usarmos uma instância para realizar uma requisição.
+
+```javascript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+
+export class CatFactsService {
+
+  private apiUrl = 'https://cat-fact.herokuapp.com/facts';
+
+  constructor(private http: HttpClient) { }
+
+  getCatFacts(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
+}
+```
+
+Agora podemos consumir o valor dentro do componente, usando o subscribe para esperar o retorno da chamada e então consumi-lo
+
+```javascript
+import { Component, OnInit } from '@angular/core';
+import { CatFactsService } from './cat-facts.service';
+
+@Component({
+  selector: 'app-cat-facts',
+  templateUrl: './cat-facts.component.html',
+  styleUrls: ['./cat-facts.component.css']
+})
+export class CatFactsComponent implements OnInit {
+
+  catFacts: any[] = [];
+
+  constructor(private catFactsService: CatFactsService) { }
+
+  ngOnInit(): void {
+    this.catFactsService.getCatFacts().subscribe(
+      (data) => {
+        this.catFacts = data;
+      },
+      (error) => {
+        console.error('Erro ao obter fatos sobre gatos:', error);
+      }
+    );
+  }
+}
+```
+
