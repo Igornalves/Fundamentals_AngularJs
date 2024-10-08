@@ -1,5 +1,13 @@
 # Fundamento do Angular 
 
+<br>
+<div style="display: inline_block" align="center">
+
+<img width="100" src="https://skillicons.dev/icons?i=angular">
+
+</div>
+<br>
+
 Este repositorio e para apenas aprendizagem na Fremework angular para conhecimento da plataforma completa.
 
 # Pré-requisitos
