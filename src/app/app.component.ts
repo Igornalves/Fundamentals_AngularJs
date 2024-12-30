@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { FooterComponent } from './components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 // import { HomeComponent } from "./components/home/home.component";
 
