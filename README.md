@@ -32,6 +32,7 @@ ng new <nome-projeto>
 
 ```java 
 ng generate component <component-name>
+ng generate component /components/<component-name>
 
 ou 
 
